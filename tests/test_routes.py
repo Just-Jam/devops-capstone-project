@@ -146,5 +146,14 @@ class TestAccountService(TestCase):
         data = res.get_json()
         self.assertEqual(len(data), 5)
 
+    def test_delete_account(self):
+        """It should Delete an Account"""
+        account = self._create_accounts(1)[0]
+        res = self.client.delete(f"/accounts/{account.id}")
+        self.assertEqual(res.status_code, status.HTTP_204_NO_CONTENT)
+
+        res = self.client.get(f"{BASE_URL}/{account.id}")
+        self.assertEqual(res.status_code, status.HTTP_404_NOT_FOUND)
+
 
 
